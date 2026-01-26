@@ -19,3 +19,28 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+-----------------------------------------------------------------------
+Third-Party Software Notices:
+
+This project (Faster-Whisper-GUI) incorporates components from the following 
+open-source projects, each used under its respective license:
+
+1. faster-whisper
+   - Author: SYSTRAN
+   - License: MIT
+   - Source: https://github.com/SYSTRAN/faster-whisper
+
+2. OpenCC (Open Chinese Convert)
+   - Author: BYVoid
+   - License: Apache 2.0
+   - Source: https://github.com/BYVoid/OpenCC
+
+3. tkinterdnd2
+   - Author: pmgagne
+   - License: MIT
+   - Source: https://github.com/pmgagne/tkinterdnd2
+
+The developer of Faster-Whisper-GUI gratefully acknowledges the contributions 
+of these upstream projects and their maintainers.
+-----------------------------------------------------------------------
