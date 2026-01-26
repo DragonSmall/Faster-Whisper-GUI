@@ -1,0 +1,15 @@
+# --- 忽略巨大的環境與模型 ---
+runtime/
+models/
+Out/
+logs/
+
+# --- 忽略設定檔與快取 ---
+config.json
+__pycache__/
+*.pyc
+.DS_Store
+
+# --- 忽略 VSCode 等編輯器設定 ---
+.vscode/
+.idea/
