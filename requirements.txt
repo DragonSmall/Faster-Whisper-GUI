@@ -1,13 +1,6 @@
-# 核心轉錄引擎與多媒體處理
 faster-whisper
 av
-
-# 介面開發與拖曳功能
 tkinterdnd2
-
-# 繁簡轉換工具
 opencc-python-reimplemented
-
-# NVIDIA CUDA 12 硬體加速支援 (GPU 版必備)
 nvidia-cudnn-cu12
 nvidia-cublas-cu12
