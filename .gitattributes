@@ -1,0 +1,12 @@
+# 1. 自動偵測文字檔
+* text=auto
+
+# 2. 【關鍵】強制 Windows 批次檔使用 CRLF 換行，防止在非 Windows 系統下載後失效
+*.bat text eol=crlf
+
+# 3. Python 腳本建議使用 LF (跨平台標準)
+*.py text eol=lf
+
+# 4. 讓 GitHub 語言統計忽略這些雜項，確保首頁顯示為 Python 專案
+*.json linguist-generated
+*.md linguist-documentation
