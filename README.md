@@ -1,6 +1,6 @@
 # Faster-Whisper-GUI
 
-這是一個基於 [faster-whisper](https://github.com/SYSTRAN/faster-whisper) 的圖形化語音轉錄工具。
+這是一個基於 [faster-whisper](https://github.com/SYSTRAN/faster-whisper) 圖形化的語音轉文字工具。
 
 為了使用上便利，製作了這個整合了圖形介面、OpenCC 自動繁簡轉換、以及模型下載管理工具。
 
