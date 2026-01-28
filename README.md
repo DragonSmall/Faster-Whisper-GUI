@@ -72,7 +72,7 @@ pip install faster-whisper av opencc-python-reimplemented tkinterdnd2
 
 ### 🔹 使用 WinPython
 
-1. 複製專案原始碼並進入資料夾
+1. 複製專案原始碼並進入資料夾(您也可以透過Code按鈕中的Download下載)
    ```bash
    git clone https://github.com/DragonSmall/Faster-Whisper-GUI.git
    cd Faster-Whisper-GUI
