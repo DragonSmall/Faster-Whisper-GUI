@@ -66,6 +66,30 @@ pip install faster-whisper av opencc-python-reimplemented tkinterdnd2
 # - 啟動程式：執行 Run.bat (進入介面後「設備」請選擇 cpu)
 ```
 
+## 🎒 進階：製作 Portable 免安裝版 
+
+如果您希望製作一個可以放在隨身碟、隨插即用的免安裝版本，可以參考以下方式。
+
+### 🔹 使用 WinPython
+
+1. 複製專案原始碼並進入資料夾
+   ```bash
+   git clone https://github.com/DragonSmall/Faster-Whisper-GUI.git
+   cd Faster-Whisper-GUI
+   ```
+2. **下載基礎包**：
+   前往 [WinPython GitHub](https://github.com/winpython/winpython/releases/tag/10.1.20240824) 下載 `Winpython64-3.11.9.0dotb5.exe` (Dot版本)。
+   
+   其他版本尚未測試過，這是選擇與當前使用較相近的版本測試結果。
+4. **解壓縮與配置**：
+   執行 `.exe` 檔，解壓後將資料夾（如 `WPy64-31190b5`）改名為 **`runtime`** 並放入專案根目錄。
+5. **安裝依賴套件**：
+   執行 `runtime` 內的 `WinPython Command Prompt.exe`，輸入指令安裝套件：
+      ```bash
+   pip install -r ..\..\requirements.txt
+   ```
+6. 將 **WinPython_Portable_Bat** 內的 **Run.bat** 、 **Download_Models.bat** 取代根目錄檔案即可。
+   
 ---
 
 ## 🛠️ 工具說明
