@@ -2,17 +2,17 @@
 setlocal
 title Faster-Whisper-Portable
 
-:: 1. è¨­å®šåŸºç¤ç›®éŒ„
+:: 1. ³]©w°òÂ¦¥Ø¿ı
 set "BASE_DIR=%~dp0"
 if "%BASE_DIR:~-1%"=="\" set "BASE_DIR=%BASE_DIR:~0,-1%"
 
-:: 2. è¨­å®šæ¨¡å‹è·¯å¾‘
+:: 2. ³]©w¼Ò«¬¸ô®|
 set "HF_HOME=%BASE_DIR%\models"
 set "XDG_CACHE_HOME=%BASE_DIR%\models"
 set "PYTHONUTF8=1"
 
 :: ========================================================
-:: ã€ç’°å¢ƒè®Šæ•¸å€ã€‘ åœç”¨è­¦å‘Šï¼Œä¿æŒä»‹é¢ä¹¾æ·¨
+:: ¡iÀô¹ÒÅÜ¼Æ°Ï¡j °±¥ÎÄµ§i¡A«O«ù¤¶­±°®²b
 :: ========================================================
 set "HF_HUB_DISABLE_SYMLINKS_WARNING=1"
 set "HF_HUB_DISABLE_IMPLICIT_TOKEN_WARNING=1"
@@ -21,16 +21,16 @@ set "PYTHONUNBUFFERED=1"
 set "HF_HUB_OFFLINE=0"
 :: ========================================================
 
-:: 3. å®šç¾© Runtime ç›®éŒ„
+:: 3. ©w¸q Runtime ¥Ø¿ı
 set "VENV_DIR=%BASE_DIR%\runtime"
 
-:: 4. è‡ªå‹•åµæ¸¬ Python ä½ç½® (WinPython ç‰¹åŒ–ç‰ˆ)
+:: 4. ¦Û°Ê°»´ú Python ¦ì¸m (WinPython ¯S¤Æª©)
 set "FINAL_PY="
-:: å…ˆæ‰¾æ ¹ç›®éŒ„ (ç›¸å®¹æ€§)
+:: ¥ı§ä®Ú¥Ø¿ı (¬Û®e©Ê)
 if exist "%VENV_DIR%\python.exe" (
     set "FINAL_PY=%VENV_DIR%\python.exe"
 ) else (
-    :: å†æ‰¾ WinPython å­ç›®éŒ„ (ä¾‹å¦‚ python-3.11.x.amd64)
+    :: ¦A§ä WinPython ¤l¥Ø¿ı (¨Ò¦p python-3.11.x.amd64)
     for /d %%D in ("%VENV_DIR%\python-*") do (
         if exist "%%D\python.exe" (
             set "FINAL_PY=%%D\python.exe"
@@ -41,26 +41,26 @@ if exist "%VENV_DIR%\python.exe" (
 
 :FOUND_PYTHON
 if not defined FINAL_PY (
-    echo [éŒ¯èª¤] æ‰¾ä¸åˆ° Python ç’°å¢ƒã€‚
-    echo è«‹ç¢ºèª runtime è³‡æ–™å¤¾æ˜¯å¦ç‚º WinPython çµæ§‹ã€‚
+    echo [¿ù»~] §ä¤£¨ì Python Àô¹Ò¡C
+    echo ½Ğ½T»{ runtime ¸ê®Æ§¨¬O§_¬° WinPython µ²ºc¡C
     pause
     exit
 )
 
-:: å–å¾— Python æ‰€åœ¨çš„è³‡æ–™å¤¾è·¯å¾‘ (ä¾‹å¦‚ runtime\python-3.11...)
+:: ¨ú±o Python ©Ò¦bªº¸ê®Æ§¨¸ô®| (¨Ò¦p runtime\python-3.11...)
 for %%F in ("%FINAL_PY%") do set "PY_ROOT=%%~dpF"
 
-:: 5. è¨­å®šè·¯å¾‘ (NVIDIA åŠ é€Ÿ - å‹•æ…‹å°æ‡‰ WinPython çµæ§‹)
+:: 5. ³]©w¸ô®| (NVIDIA ¥[³t - °ÊºA¹ïÀ³ WinPython µ²ºc)
 set "PATH=%PY_ROOT%Scripts;%PY_ROOT%;%PY_ROOT%Lib\site-packages\nvidia\cuda_runtime\bin;%PY_ROOT%Lib\site-packages\nvidia\cudnn\bin;%PY_ROOT%Lib\site-packages\nvidia\cublas\bin;%PATH%"
 
 echo =======================================================
 echo    Faster-Whisper-Portable
-echo    æ­£åœ¨å•Ÿå‹•ä¸»ç¨‹å¼...(è«‹å‹¿é—œé–‰æ­¤è¦–çª—)
+echo    ¥¿¦b±Ò°Ê¥Dµ{¦¡...(½Ğ¤ÅÃö³¬¦¹µøµ¡)
 echo.
-echo    æç¤º: è‹¥éœ€ä¸‹è¼‰å…¶ä»–æ¨¡å‹ï¼Œè«‹åŸ·è¡Œ Download_Models.bat
+echo    ´£¥Ü: ­Y»İ¤U¸ü¨ä¥L¼Ò«¬¡A½Ğ°õ¦æ Download_Models.bat
 echo =======================================================
 
-:: 6. å•Ÿå‹• GUI
+:: 6. ±Ò°Ê GUI
 "%FINAL_PY%" "%BASE_DIR%\app_gui.py"
 
 endlocal

@@ -2,43 +2,43 @@
 setlocal
 title Faster-Whisper Model Downloader
 
-:: 1. 設定基礎目錄
+:: 1. �]�w��¦�ؿ�
 set "BASE_DIR=%~dp0"
 if "%BASE_DIR:~-1%"=="\" set "BASE_DIR=%BASE_DIR:~0,-1%"
 
-:: 2. 設定模型路徑
+:: 2. �]�w�ҫ����|
 set "HF_HOME=%BASE_DIR%\models"
 set "XDG_CACHE_HOME=%BASE_DIR%\models"
 
 :: ========================================================
-:: 【關鍵修正區】 在這裡設定所有環境變數 (最優先生效)
+:: �i����ץ��ϡj �b�o�̳]�w�Ҧ������ܼ� (���u���ͮ�)
 :: ========================================================
-:: (A) 讓 Token 警告閉嘴
+:: (A) �� Token ĵ�i���L
 set "HF_HUB_DISABLE_IMPLICIT_TOKEN_WARNING=1"
 
-:: (B) 讓 Symlinks 警告閉嘴
+:: (B) �� Symlinks ĵ�i���L
 set "HF_HUB_DISABLE_SYMLINKS_WARNING=1"
 
-:: (C) 強制 Python 即時顯示輸出 (解決進度條不見的問題)
+:: (C) �j�� Python �Y����ܿ�X (�ѨM�i�ױ����������D)
 set "PYTHONUNBUFFERED=1"
 
-:: (D) 解決 Intel MKL 錯誤
+:: (D) �ѨM Intel MKL ���~
 set "KMP_DUPLICATE_LIB_OK=TRUE"
 
-:: (E) 確保允許連網
+:: (E) �T�O���\�s��
 set "HF_HUB_OFFLINE=0"
 :: ========================================================
 
-:: 3. 定義 Runtime 目錄
+:: 3. �w�q Runtime �ؿ�
 set "VENV_DIR=%BASE_DIR%\runtime"
 
-:: 4. 尋找 Python (WinPython 特化版)
+:: 4. �M�� Python (WinPython �S�ƪ�)
 set "FINAL_PY="
-:: 先找根目錄
+:: ����ڥؿ�
 if exist "%VENV_DIR%\python.exe" (
     set "FINAL_PY=%VENV_DIR%\python.exe"
 ) else (
-    :: 再找 WinPython 子目錄
+    :: �A�� WinPython �l�ؿ�
     for /d %%D in ("%VENV_DIR%\python-*") do (
         if exist "%%D\python.exe" (
             set "FINAL_PY=%%D\python.exe"
@@ -49,13 +49,13 @@ if exist "%VENV_DIR%\python.exe" (
 
 :FOUND_PYTHON
 if not defined FINAL_PY (
-    echo [錯誤] 找不到 Python 環境。
-    echo 請確認 runtime 資料夾是否為 WinPython 結構。
+    echo [���~] �䤣�� Python ���ҡC
+    echo �нT�{ runtime ��Ƨ��O�_�� WinPython ���c�C
     pause
     exit
 )
 
-echo 正在啟動下載工具...
+echo ���b�ҰʤU���u��...
 "%FINAL_PY%" "%BASE_DIR%\download_tool.py"
 
 endlocal
