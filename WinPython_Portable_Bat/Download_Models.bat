@@ -1,28 +1,44 @@
 @echo off
 setlocal
-cd /d "%~dp0"
 title Faster-Whisper Model Downloader
 
-:: ========================================================
-:: 1. ³]©w Runtime ®Ú¥Ø¿ý»P°òÂ¦¸ô®|
-:: ========================================================
+:: 1. è¨­å®šåŸºç¤Žç›®éŒ„
 set "BASE_DIR=%~dp0"
-set "VENV_DIR=%BASE_DIR%runtime"
+if "%BASE_DIR:~-1%"=="\" set "BASE_DIR=%BASE_DIR:~0,-1%"
 
-:: ³]©w¼Ò«¬¤U¸ü¦s©ñ¸ô®|
-set "HF_HOME=%BASE_DIR%models"
-set "XDG_CACHE_HOME=%BASE_DIR%models"
+:: 2. è¨­å®šæ¨¡åž‹è·¯å¾‘
+set "HF_HOME=%BASE_DIR%\models"
+set "XDG_CACHE_HOME=%BASE_DIR%\models"
 
 :: ========================================================
-:: 2. ¦Û°Ê·j´M WinPython ªº°õ¦æÀÉ¸ô®| (´¼¼z°»´ú)
+:: ã€é—œéµä¿®æ­£å€ã€‘ åœ¨é€™è£¡è¨­å®šæ‰€æœ‰ç’°å¢ƒè®Šæ•¸ (æœ€å„ªå…ˆç”Ÿæ•ˆ)
 :: ========================================================
+:: (A) è®“ Token è­¦å‘Šé–‰å˜´
+set "HF_HUB_DISABLE_IMPLICIT_TOKEN_WARNING=1"
+
+:: (B) è®“ Symlinks è­¦å‘Šé–‰å˜´
+set "HF_HUB_DISABLE_SYMLINKS_WARNING=1"
+
+:: (C) å¼·åˆ¶ Python å³æ™‚é¡¯ç¤ºè¼¸å‡º (è§£æ±ºé€²åº¦æ¢ä¸è¦‹çš„å•é¡Œ)
+set "PYTHONUNBUFFERED=1"
+
+:: (D) è§£æ±º Intel MKL éŒ¯èª¤
+set "KMP_DUPLICATE_LIB_OK=TRUE"
+
+:: (E) ç¢ºä¿å…è¨±é€£ç¶²
+set "HF_HUB_OFFLINE=0"
+:: ========================================================
+
+:: 3. å®šç¾© Runtime ç›®éŒ„
+set "VENV_DIR=%BASE_DIR%\runtime"
+
+:: 4. å°‹æ‰¾ Python (WinPython ç‰¹åŒ–ç‰ˆ)
 set "FINAL_PY="
-
+:: å…ˆæ‰¾æ ¹ç›®éŒ„
 if exist "%VENV_DIR%\python.exe" (
-    :: ±¡ªp A: ª½±µ¦b runtime ®Ú¥Ø¿ý (Embeddedª©)
     set "FINAL_PY=%VENV_DIR%\python.exe"
 ) else (
-    :: ±¡ªp B: ·j´M WinPython ¤l¥Ø¿ý (¨Ò¦p python-3.11.9.amd64)
+    :: å†æ‰¾ WinPython å­ç›®éŒ„
     for /d %%D in ("%VENV_DIR%\python-*") do (
         if exist "%%D\python.exe" (
             set "FINAL_PY=%%D\python.exe"
@@ -33,44 +49,13 @@ if exist "%VENV_DIR%\python.exe" (
 
 :FOUND_PYTHON
 if not defined FINAL_PY (
-    echo.
-    echo [ÄY­«¿ù»~] §ä¤£¨ì Python Àô¹Ò¡I
-    echo ½Ð½T»{ runtime ¸ê®Æ§¨¬O§_¬°¥¿½Tªº WinPython µ²ºc¡C
-    echo ¹w´Á¸ô®|½d¨Ò: runtime\python-3.11.x.amd64\python.exe
+    echo [éŒ¯èª¤] æ‰¾ä¸åˆ° Python ç’°å¢ƒã€‚
+    echo è«‹ç¢ºèª runtime è³‡æ–™å¤¾æ˜¯å¦ç‚º WinPython çµæ§‹ã€‚
     pause
-    exit /b
+    exit
 )
 
-:: ========================================================
-:: 3. ³]©wÀô¹ÒÅÜ¼Æ (Àu¤Æ¤U¸üÅéÅç)
-:: ========================================================
-:: Åý Token Äµ§i³¬¼L
-set "HF_HUB_DISABLE_IMPLICIT_TOKEN_WARNING=1"
-:: Ãö³¬ Symlinks Äµ§i
-set "HF_HUB_DISABLE_SYMLINKS_WARNING=1"
-:: ±j¨îÅã¥Ü¶i«×±ø
-set "PYTHONUNBUFFERED=1"
-:: ¸Ñ¨M Intel MKL ¿ù»~
-set "KMP_DUPLICATE_LIB_OK=TRUE"
-:: ½T«O¤¹³\³sºô
-set "HF_HUB_OFFLINE=0"
+echo æ­£åœ¨å•Ÿå‹•ä¸‹è¼‰å·¥å…·...
+"%FINAL_PY%" "%BASE_DIR%\download_tool.py"
 
-echo =======================================================
-echo    Faster-Whisper ¼Ò«¬¤U¸ü¤u¨ã
-echo    ¨Ï¥Î®Ö¤ß: %FINAL_PY%
-echo    ¼Ò«¬¦s©ñ: %HF_HOME%
-echo =======================================================
-
-:: 4. ±Ò°Ê¤U¸ü¤u¨ã
-"%FINAL_PY%" "%BASE_DIR%download_tool.py"
-
-:: 5. ¿ù»~ÄdºI
-if %ERRORLEVEL% NEQ 0 (
-    echo.
-    echo [¿ù»~] ¤U¸ü¤u¨ãµo¥Í²§±` (¥N½X: %ERRORLEVEL%)
-)
-
-echo.
-echo «ö¥ô·NÁäÃö³¬µøµ¡...
-pause
 endlocal
