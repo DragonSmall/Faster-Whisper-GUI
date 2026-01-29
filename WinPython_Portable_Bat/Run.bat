@@ -1,22 +1,36 @@
 @echo off
 setlocal
-cd /d "%~dp0"
 title Faster-Whisper-Portable
 
-:: 1. ³]©w Runtime ®Ú¥Ø¿ı
+:: 1. è¨­å®šåŸºç¤ç›®éŒ„
 set "BASE_DIR=%~dp0"
-set "VENV_DIR=%BASE_DIR%runtime"
+if "%BASE_DIR:~-1%"=="\" set "BASE_DIR=%BASE_DIR:~0,-1%"
 
-:: 2. ¦Û°Ê·j´M WinPython ªº°õ¦æÀÉ¸ô®|
-:: WinPython ªºµ²ºc³q±`¬O runtime\python-3.11.x.amd64\python.exe
-:: §Ú­Ì¥Î¤@­Ó°j°é¥h§ì¨ú "python-*" ¶}ÀYªº¸ê®Æ§¨
+:: 2. è¨­å®šæ¨¡å‹è·¯å¾‘
+set "HF_HOME=%BASE_DIR%\models"
+set "XDG_CACHE_HOME=%BASE_DIR%\models"
+set "PYTHONUTF8=1"
+
+:: ========================================================
+:: ã€ç’°å¢ƒè®Šæ•¸å€ã€‘ åœç”¨è­¦å‘Šï¼Œä¿æŒä»‹é¢ä¹¾æ·¨
+:: ========================================================
+set "HF_HUB_DISABLE_SYMLINKS_WARNING=1"
+set "HF_HUB_DISABLE_IMPLICIT_TOKEN_WARNING=1"
+set "KMP_DUPLICATE_LIB_OK=TRUE"
+set "PYTHONUNBUFFERED=1"
+set "HF_HUB_OFFLINE=0"
+:: ========================================================
+
+:: 3. å®šç¾© Runtime ç›®éŒ„
+set "VENV_DIR=%BASE_DIR%\runtime"
+
+:: 4. è‡ªå‹•åµæ¸¬ Python ä½ç½® (WinPython ç‰¹åŒ–ç‰ˆ)
 set "FINAL_PY="
-
+:: å…ˆæ‰¾æ ¹ç›®éŒ„ (ç›¸å®¹æ€§)
 if exist "%VENV_DIR%\python.exe" (
-    :: ±¡ªp A: ª½±µ¦b runtime ®Ú¥Ø¿ı (Embeddedª©)
     set "FINAL_PY=%VENV_DIR%\python.exe"
 ) else (
-    :: ±¡ªp B: ·j´M WinPython ¤l¥Ø¿ı
+    :: å†æ‰¾ WinPython å­ç›®éŒ„ (ä¾‹å¦‚ python-3.11.x.amd64)
     for /d %%D in ("%VENV_DIR%\python-*") do (
         if exist "%%D\python.exe" (
             set "FINAL_PY=%%D\python.exe"
@@ -27,29 +41,27 @@ if exist "%VENV_DIR%\python.exe" (
 
 :FOUND_PYTHON
 if not defined FINAL_PY (
-    echo [ÄY­«¿ù»~] §ä¤£¨ì Python °õ¦æÀÉ¡I
-    echo ½Ğ½T»{ runtime ¸ê®Æ§¨¬O§_¬°¥¿½Tªº WinPython µ²ºc¡C
+    echo [éŒ¯èª¤] æ‰¾ä¸åˆ° Python ç’°å¢ƒã€‚
+    echo è«‹ç¢ºèª runtime è³‡æ–™å¤¾æ˜¯å¦ç‚º WinPython çµæ§‹ã€‚
     pause
-    exit /b
+    exit
 )
 
-:: 3. ³]©wÀô¹ÒÅÜ¼Æ (Åıµ{¦¡¶]±o§ó¶¶)
-set "HF_HOME=%BASE_DIR%models"
-set "PYTHONUTF8=1"
-set "HF_HUB_DISABLE_IMPLICIT_TOKEN_WARNING=1"
-set "HF_HUB_DISABLE_SYMLINKS_WARNING=1"
-set "KMP_DUPLICATE_LIB_OK=TRUE"
+:: å–å¾— Python æ‰€åœ¨çš„è³‡æ–™å¤¾è·¯å¾‘ (ä¾‹å¦‚ runtime\python-3.11...)
+for %%F in ("%FINAL_PY%") do set "PY_ROOT=%%~dpF"
+
+:: 5. è¨­å®šè·¯å¾‘ (NVIDIA åŠ é€Ÿ - å‹•æ…‹å°æ‡‰ WinPython çµæ§‹)
+set "PATH=%PY_ROOT%Scripts;%PY_ROOT%;%PY_ROOT%Lib\site-packages\nvidia\cuda_runtime\bin;%PY_ROOT%Lib\site-packages\nvidia\cudnn\bin;%PY_ROOT%Lib\site-packages\nvidia\cublas\bin;%PATH%"
 
 echo =======================================================
-echo    Faster-Whisper-GUI (Portable)
-echo    Python ®Ö¤ß: %FINAL_PY%
+echo    Faster-Whisper-Portable
+echo    æ­£åœ¨å•Ÿå‹•ä¸»ç¨‹å¼...(è«‹å‹¿é—œé–‰æ­¤è¦–çª—)
+echo.
+echo    æç¤º: è‹¥éœ€ä¸‹è¼‰å…¶ä»–æ¨¡å‹ï¼Œè«‹åŸ·è¡Œ Download_Models.bat
 echo =======================================================
 
-:: 4. ±Ò°Ê¥Dµ{¦¡
-"%FINAL_PY%" "%BASE_DIR%app_gui.py"
+:: 6. å•Ÿå‹• GUI
+"%FINAL_PY%" "%BASE_DIR%\app_gui.py"
 
-if %ERRORLEVEL% NEQ 0 (
-    echo.
-    echo [¿ù»~] µ{¦¡²§±`µ²§ô (¥N½X: %ERRORLEVEL%)
-    pause
-)
+endlocal
+exit
